@@ -1,0 +1,143 @@
+#include <iostream>
+using namespace std;
+
+// node class creation
+class Node{
+    public:
+    // object creation
+    string name;
+    int age;
+    Node* next;
+    Node* prev;
+    Node(string name,int age){
+        this->name=name;
+        this->age=age;
+        next=NULL; 
+        prev=NULL; 
+}
+};
+
+// insert node at the front
+void insertFront(Node* &head,string name, int age) {
+  // allocate memory for newNode
+  Node* newNode = new Node(name,age);
+  
+  // make newNode as a head
+  newNode->next = head;
+
+  // assign null to prev
+  newNode->prev = NULL;
+
+  // previous of head (now head is the second node) is newNode
+  if (head != NULL)
+    head->prev = newNode;
+
+  // head points to newNode
+  head = newNode;
+}
+
+//insert a new node at the end of the linked list
+void insertEnd(Node* &head,string name,int age)
+{
+    //creating a new node and storing name and age in it
+    Node*newNode=new Node(name,age);
+    
+    //Inserting node in empty list
+   newNode->next = NULL;
+
+  // store the head node temporarily (for later use)
+  Node* temp = head;
+
+  // if the linked list is empty, make the newNode as head node
+  if (head == NULL) 
+  {
+    newNode->prev = NULL;
+    head = newNode;
+    return;
+  }
+    
+    //Inserting node in non empty list
+    else
+    {
+        while(temp->next!=NULL)
+        {
+            temp=temp->next;
+            
+        }
+        
+        // now, the last node of the linked list is temp
+        
+        // assign next of the last node (temp) to newNode
+        temp->next=newNode;
+        // assign prev of newNode to temp
+        newNode->prev=temp;
+    }
+}
+
+// delete a node from the doubly linked list
+void deleteNode(Node*&head,int i) {
+  if(i==0){
+        Node*temp=head;
+        head=temp->next;
+        head->prev=NULL;
+        delete temp;
+    }
+    else{
+        Node*temp=head;
+        for(int j=0;j<i;j++){temp=temp->next;}
+        temp->prev->next=temp->next;
+        temp->next->prev=temp->prev;
+        delete temp;
+    }
+}
+
+ 
+// display list from start
+void displayList_start(Node* node) {
+  Node* last;
+
+  while (node != NULL) {
+    cout << "Name:"<<node->name << "->"<<"Age"<<node->age << "->";
+    last = node;
+    node = node->next;
+  }
+  if (node == NULL)
+    cout << "NULL"<<endl;
+}
+
+// display list from last
+void displayList_last(Node*head){
+    Node*node=head;
+    while(node->next!=NULL)
+        {node=node->next;}
+    while(node!=NULL)
+    {
+        cout << "Name:"<<node->name << "->"<<"Age"<<node->age << "->";
+        node=node->prev;}
+        cout<<endl;
+    }
+
+int main() {
+  // initialize an empty node
+  Node* head = NULL;
+
+    int num_members;
+    
+ cout<<"Enter the number of family members:";
+ cin>>num_members;
+    //Inserting family members details in doubly linked list
+ for(int i=1;i<=num_members;i++)
+ {
+  string name;
+  int age;
+  cout<<"Enter "<<i<<" family member's name: ";
+  cin>>name;
+  cout<<"Enter "<<i<<" family member age:";
+  cin>>age;
+        //adding data name and age in doubly linked list
+  insertEnd(head,name,age);
+ }
+    cout<<endl;
+    cout<<"Doubly linked list with my family members as elements is: "<<endl;
+  displayList_start(head);
+}

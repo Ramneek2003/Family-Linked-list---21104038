@@ -1,0 +1,3 @@
+A relation can be built by segmenting the members according to their age groups.
+This can be done by sorting them in increasing or decreasing order of their ages.
+Eg: In ascending order younger generation will be close to the head while the older generation will be close to the tail.
